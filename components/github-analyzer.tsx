@@ -115,7 +115,7 @@ export function GitHubAnalyzer() {
               onChange={(e) => setUsername(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && analyzeProfile()}
             />
-            <Button onClick={analyzeProfile} disabled={loading} className=" bg-[#164e63] text-white">
+            <Button onClick={analyzeProfile} disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
