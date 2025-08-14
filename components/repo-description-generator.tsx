@@ -53,15 +53,11 @@ export function RepoDescriptionGenerator() {
     setGeneratedDescription("")
 
     try {
-      console.log("Analyzing repository:", repoUrl.trim()) // Added debug logging
-
       const response = await fetch("/api/github/analyze-repo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repoUrl: repoUrl.trim() }),
       })
-
-      console.log("Response status:", response.status) // Added debug logging
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: "Unknown error" }))
@@ -69,7 +65,6 @@ export function RepoDescriptionGenerator() {
       }
 
       const data = await response.json()
-      console.log("Response data:", data) // Added debug logging
 
       setRepoData(data.repository)
       setGeneratedDescription(data.description)
@@ -79,7 +74,6 @@ export function RepoDescriptionGenerator() {
         description: "Repository analyzed successfully!",
       })
     } catch (error) {
-      console.error("Error analyzing repository:", error) // Added debug logging
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
       setError(errorMessage)
       toast({
@@ -129,7 +123,7 @@ export function RepoDescriptionGenerator() {
               onKeyPress={(e) => e.key === "Enter" && analyzeRepository()}
               className={error ? "border-red-500" : ""}
             />
-            <Button onClick={analyzeRepository} disabled={loading} className="border-1 bg-[#164e63] text-white ">
+            <Button onClick={analyzeRepository} disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -25,6 +25,12 @@ interface GitHubContent {
 }
 
 export async function POST(request: NextRequest) {
+  const token = process.env.GITHUB_API_TOKEN
+  if (!token) {
+    console.error("GITHUB_API_TOKEN is not set")
+    return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+  }
+
   try {
     const { repoUrl } = await request.json()
 
@@ -44,18 +50,15 @@ export async function POST(request: NextRequest) {
 
     const cleanRepoName = repo.replace(/\.git$/, "")
 
-    console.log(`Fetching repository: ${owner}/${cleanRepoName}`)
-
     const repoResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepoName}`, {
       headers: {
         Accept: "application/vnd.github.v3+json",
         "User-Agent": "GitHub-Repo-Analyzer/1.0",
+        Authorization: `token ${token}`,
         // Add cache control to avoid stale data
         "Cache-Control": "no-cache",
       },
     })
-
-    console.log(`Repository API response status: ${repoResponse.status}`)
 
     if (!repoResponse.ok) {
       const errorText = await repoResponse.text()
@@ -73,7 +76,7 @@ export async function POST(request: NextRequest) {
           {
             error: "GitHub API rate limit exceeded. Please try again later.",
           },
-          { status: 429 },
+          { status: 403 },
         )
       } else {
         return NextResponse.json(
@@ -86,12 +89,12 @@ export async function POST(request: NextRequest) {
     }
 
     const repository: GitHubRepo = await repoResponse.json()
-    console.log(`Successfully fetched repository: ${repository.name}`)
 
     const contentsResponse = await fetch(`https://api.github.com/repos/${owner}/${cleanRepoName}/contents`, {
       headers: {
         Accept: "application/vnd.github.v3+json",
         "User-Agent": "GitHub-Repo-Analyzer/1.0",
+        Authorization: `token ${token}`,
         "Cache-Control": "no-cache",
       },
     })
@@ -99,9 +102,7 @@ export async function POST(request: NextRequest) {
     let contents: GitHubContent[] = []
     if (contentsResponse.ok) {
       contents = await contentsResponse.json()
-      console.log(`Fetched ${contents.length} files from repository contents`)
     } else {
-      console.warn(`Could not fetch repository contents: ${contentsResponse.status}`)
       // Continue without contents - we can still generate a description
     }
 

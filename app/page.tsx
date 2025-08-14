@@ -260,7 +260,7 @@ export default function HomePage() {
 
               <div className="space-y-2 sm:space-y-3">
                 <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-slate-900 dark:text-slate-100">
-                  Anwar patel !
+                  Anwar Patel
                 </h3>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">

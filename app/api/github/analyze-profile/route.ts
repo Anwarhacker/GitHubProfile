@@ -28,6 +28,12 @@ interface GitHubRepo {
 }
 
 export async function POST(request: NextRequest) {
+  const token = process.env.GITHUB_API_TOKEN
+  if (!token) {
+    console.error("GITHUB_API_TOKEN is not set")
+    return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+  }
+
   try {
     const { username } = await request.json()
 
@@ -40,6 +46,7 @@ export async function POST(request: NextRequest) {
       headers: {
         Accept: "application/vnd.github.v3+json",
         "User-Agent": "GitHub-Profile-Generator",
+        Authorization: `token ${token}`,
       },
     })
 
@@ -54,6 +61,7 @@ export async function POST(request: NextRequest) {
       headers: {
         Accept: "application/vnd.github.v3+json",
         "User-Agent": "GitHub-Profile-Generator",
+        Authorization: `token ${token}`,
       },
     })
 
