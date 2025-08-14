@@ -253,7 +253,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto px-4">
             <div className="text-center mb-4 sm:mb-6 lg:mb-8">
               <div className="flex justify-center items-center gap-2 mb-2 sm:mb-3 lg:mb-4">
-                <span className="text-xs sm:text-sm lg:text-base text-slate-600 dark:text-slate-400">Made with</span>
+                <span className="text-xs sm:text-sm lg:text-base text-slate-600 dark:text-slate-400">Developed </span>
                 <Heart className="h-3 w-3 sm:h-4 sm:w-4 text-red-500 animate-pulse" />
                 <span className="text-xs sm:text-sm lg:text-base text-slate-600 dark:text-slate-400">by</span>
               </div>
