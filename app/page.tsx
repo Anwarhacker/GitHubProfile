@@ -239,7 +239,7 @@ export default function HomePage() {
                       Generate Repository Documentation
                     </h2>
                     <p className="text-xs sm:text-sm lg:text-base text-slate-600 dark:text-slate-400 max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4">
-                      Create comprehensive documentation for any GitHub repository with detailed analysis
+                      Create comprehensive documentation for any GitHub repository with detailed analysis.
                     </p>
                   </div>
                   <RepoDescriptionGenerator />
